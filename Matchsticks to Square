@@ -1,0 +1,32 @@
+class Solution {
+    public boolean makesquare(int[] matchsticks) {
+       //base condition is to check sum & length of matchsticks
+       if(matchsticks.length<4) return false;
+       int sum=0;
+       for(int i=0;i<matchsticks.length;i++){
+           sum+=matchsticks[i];
+       }
+        if(sum%4!=0) return false;
+        int side=sum/4;
+        return square(0,matchsticks,new int[]{side,side,side,side});
+    }
+    public boolean square(int i, int[] matchsticks, int[] side){
+        //if pointer reaches matchsticks size & all sides are 0 return true
+        if(i==matchsticks.length){
+            if(side[0]==0&&side[1]==0&&side[2]==0&&side[3]==0) return true;
+            return false;
+        }
+        for(int j=0;j<4;j++){
+            
+            if(matchsticks[i]>side[j]) continue;
+            //decrement side array to reduce element to 0
+            side[j]-=matchsticks[i];
+            //check for square function
+            if(square(i+1,matchsticks,side)) return true;
+            //backtrack
+            side[j]+=matchsticks[i];
+        }
+        //if not true at end return false;
+        return false;
+    }
+}
